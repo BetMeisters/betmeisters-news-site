@@ -58,7 +58,8 @@
       var items = side.querySelectorAll('.bm-spot-i'), dots = side.querySelectorAll('.bm-dots button'), cur = 0;
       var show = function (i) { cur = (i + items.length) % items.length; for (var k = 0; k < items.length; k++) { items[k].classList.toggle('on', k === cur); dots[k].classList.toggle('on', k === cur); } };
       side.querySelector('.bm-dots').addEventListener('click', function (e) { var d = e.target.getAttribute('data-i'); if (d != null) { show(+d); } });
-      if (items.length > 1 && !window.__bmSpot) window.__bmSpot = setInterval(function () { if (!document.hidden) show(cur + 1); }, 6000);
+      var spotEl = side.querySelector('.bm-spot'), hold = false; spotEl.addEventListener('mouseenter', function () { hold = true; }); spotEl.addEventListener('mouseleave', function () { hold = false; });
+      if (items.length > 1 && !window.__bmSpot && !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) window.__bmSpot = setInterval(function () { if (!document.hidden && !hold) show(cur + 1); }, 20000);
       latest.forEach(function (a) { shown[a.id] = 1; });
     }
     /* 2. 'From the desk' always four cards */
