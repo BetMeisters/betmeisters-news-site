@@ -1,5 +1,5 @@
 (function () {
-  var GA = "", KEY = "bmn_consent";
+  var GA = "G-B5H2QLP7RB", KEY = "bmn_consent";
   window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } window.gtag = gtag;
   gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: "denied" });
   function load() { if (!GA || window.__ga) return; window.__ga = 1; var s = document.createElement("script"); s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA; document.head.appendChild(s); gtag("js", new Date()); gtag("config", GA, { anonymize_ip: true }); }
