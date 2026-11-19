@@ -347,6 +347,13 @@ nav.sections .dd-menu a:hover { background: var(--paper-2); }
 #cc button[data-v=no]{background:transparent;color:#EAF0FB;border-color:#5A6E96}#cc button[data-v=yes]{background:#FFC629;color:#07112A}
 .signup{margin:34px auto 10px;padding:22px 20px;border-top:3px solid #14130F;border-bottom:1px solid #14130F;max-width:1108px;box-sizing:border-box}
 .signup h2{margin:0 0 6px}.signup .nf{max-width:560px}
+.bm-spot{position:relative;min-height:190px;border-bottom:1px solid var(--hair,#ddd);padding-bottom:12px}
+.bm-spot-i{display:none;text-decoration:none;color:inherit}.bm-spot-i.on{display:block;animation:bmfade .5s ease}
+.bm-spot-i b{display:block;font:800 24px/1.18 var(--f-head,Georgia,serif);margin:6px 0 8px;color:var(--ink,#14130F)}.bm-spot-i:hover b{color:var(--gold,#9a7400)}
+.bm-spot-i .meta{display:block;font-size:15px;line-height:1.45}
+.bm-dots{display:flex;gap:6px;margin-top:12px}.bm-dots button{width:22px;height:5px;border:0;border-radius:3px;background:#cfc9b8;cursor:pointer;padding:0}.bm-dots button.on{background:#14130F}
+@keyframes bmfade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.bm-spot-i.on{animation:none}}
 .signup .hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}
 .nf label{display:block}.nf .em{width:100%;box-sizing:border-box;padding:13px 14px;border-radius:6px;border:1px solid #3A372F;background:#fff;color:#14130F;font:500 17px Barlow,Arial,sans-serif;margin:4px 0 12px}
 .nf .tick{display:flex;gap:10px;align-items:flex-start;margin:0 0 10px;font-size:15px;cursor:pointer}
