@@ -1,3 +1,5 @@
 [build]
   publish = "."
   command = ""
+  # Site moved to GitHub Pages (19 Nov 2026): skip all Netlify builds so no credits are used.
+  ignore = "exit 0"
