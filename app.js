@@ -110,7 +110,8 @@
   function recordStrip() {
     var r = D.record, cell = function (lab, x) { return '<div><div class="rk">' + lab + '</div><div class="rb ' + (x.pts >= 0 ? "pos" : "neg") + '">' + (x.pts >= 0 ? "+" : "−") + Math.abs(x.pts).toFixed(2) + ' pts</div><div class="rs">' + x.n + " settled · " + x.won + " won</div></div>"; };
     /* Keith 16 Nov 18:10: dark record box in the middle, three equal boxes */
-    return '<div class="record">' + cell("Number Cruncher Meister", r.ncm) + '<div class="rec-lab"><div class="rk">The BetMeisters record</div><p>Every tip quoted here is on the public record at BetMeisters.com, win or lose. As of ' + esc(r.asOf) + ".</p></div>" + cell("The Original Meister", r.tom) + "</div>";
+    /* Owner 20 Nov 18:32: NCM Racing Meister added (its record from 19 Nov); four boxes: label, NCM, TOM, NCMR */
+    return '<div class="record r4"><div class="rec-lab"><div class="rk">The BetMeisters record</div><p>Every tip quoted here is on the public record at BetMeisters.com, win or lose. As of ' + esc(r.asOf) + ".</p></div>" + cell("Number Cruncher Meister", r.ncm) + cell("The Original Meister", r.tom) + (r.ncmr ? cell("NCM Racing Meister", r.ncmr) : "") + "</div>";
   }
 
   /* ---------- pages ---------- */
