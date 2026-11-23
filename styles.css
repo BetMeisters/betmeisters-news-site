@@ -355,6 +355,7 @@ nav.sections .dd-menu a:hover { background: var(--paper-2); }
 .bm-dots{display:flex;gap:6px;margin-top:12px}.bm-dots button{width:22px;height:5px;border:0;border-radius:3px;background:#cfc9b8;cursor:pointer;padding:0}.bm-dots button.on{background:#14130F}
 @keyframes bmfade{from{opacity:0}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){.bm-spot-i.on{animation:none}}
+#bm-feed .bmf{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px}#bm-feed .bmf a{display:block;padding:10px 12px;border:1px solid #d8d2c2;border-radius:8px;text-decoration:none;color:#14130F;background:#fff}#bm-feed .bmf a:hover{border-color:#14130F}#bm-feed .bmf b{display:block;font-size:17px;margin:2px 0}#bm-feed .bmf-t,#bm-feed .bmf-e{display:block;font-size:13px;color:#6b6656}#bm-feed .bmf-h{margin-top:14px;font-weight:700}#bm-feed .bmf-rec{margin:14px 0 0}#bm-feed .bmf-f{font-size:13px;color:#6b6656;margin:10px 0 0}
 a.go-com{display:inline-block;margin-top:6px;padding:13px 22px;border-radius:6px;background:#FFC629;color:#14130F;font:700 17px Barlow,Arial,sans-serif;text-decoration:none}
 .signup .hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}
 .nf label{display:block}.nf .em{width:100%;box-sizing:border-box;padding:13px 14px;border-radius:6px;border:1px solid #3A372F;background:#fff;color:#14130F;font:500 17px Barlow,Arial,sans-serif;margin:4px 0 12px}

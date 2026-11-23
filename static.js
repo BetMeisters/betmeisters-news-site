@@ -78,6 +78,21 @@
         g.parentNode.insertBefore(w, g); }
     }
   }
+  /* Owner 23 Nov 11:16: live tips from BetMeisters.com (tips_feed.json, updated every pass) */
+  (function feed() {
+    var box = document.getElementById('bm-feed'); if (!box || box.getAttribute('data-done')) return; box.setAttribute('data-done', '1');
+    var U = 'https://betmeisters.com/?utm_source=news&utm_medium=referral&utm_campaign=tipbox';
+    var e = function (x) { return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+    var hm = { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' };
+    var when = function (iso) { var d = new Date(iso), uk = new Intl.DateTimeFormat('en-GB', Object.assign({ timeZone: 'Europe/London', weekday: 'short' }, hm)).format(d), lt = ''; try { var l = new Intl.DateTimeFormat('en-GB', hm).format(d), u = new Intl.DateTimeFormat('en-GB', Object.assign({ timeZone: 'Europe/London' }, hm)).format(d); if (l !== u) lt = ' · ' + l + ' your time'; } catch (x) {} return uk + ' UK' + lt; };
+    fetch('https://betmeisters.com/tips_feed.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (f) {
+      var rec = f.record || {}, sg = function (v) { return (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(2); };
+      box.innerHTML = '<p class="bmf-rec"><b>The record since 5 November:</b> ' + sg(rec.pts) + ' pts from ' + rec.tips + ' settled tips (' + (rec.roi >= 0 ? '+' : '−') + Math.abs(rec.roi).toFixed(1) + '% return), every loser counted.</p>' +
+        ((f.next || []).length ? '<div class="bmf-h">Next tips, free to read</div><ul class="bmf">' + f.next.map(function (t) {
+          return '<li><a href="' + U + '"><span class="bmf-t">' + e(when(t.start)) + ' · ' + e(t.tier) + ' · ' + e(t.who) + '</span><b>' + e(t.sel) + ' @ ' + (+t.price).toFixed(2) + '</b><span class="bmf-e">' + e(t.event) + (t.chance ? ' · chance ' + Math.round(t.chance * 100) + '%' : '') + '</span></a></li>'; }).join('') + '</ul>' : '<p>No open tips right now: new tips are published through the day.</p>') +
+        '<p class="bmf-f">From BetMeisters.com, our sister tips site. Tips are opinions, not guarantees. 18+ only.</p>';
+    }).catch(function () {});
+  })();
   fix();
   new MutationObserver(function (m) { fix(); }).observe(document.getElementById('main') || document.body, { childList: true });
 })();
