@@ -3,23 +3,19 @@
   var rids = {}; (window.BMN.operators || []).forEach(function (o) { rids[o.id] = 1; });
   function fix() {
     var q = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
-    q('a[href*="claude.ai/artifact"], a[href*="betmeisters.com"]').forEach(function (a) {
-      if (a.closest('.bx, .pp-tease, .bm-link, .tipwall, .tw-item, #signup, .bmf-strip, .bmf-top')) return;
-      var t = document.createTextNode(a.textContent); a.parentNode.replaceChild(t, a);
-    });
-    q('.bx, .pp-tease, .bm-link, .record, .firewall, .tipwall, .tw-item').forEach(function (e) { e.remove(); });
+    q('a[href*="claude.ai/artifact"]').forEach(function (a) { var t = document.createTextNode(a.textContent); a.parentNode.replaceChild(t, a); });
+    q('.firewall').forEach(function (e) { e.remove(); });
     q('.sec-h').forEach(function (h) {
       var a = h.querySelector('a'), t = h.textContent;
-      if (/Tips from BetMeisters|Bonuses/.test(t) || (a && /bonuses\.html|#tip$/.test(a.getAttribute('href') || ''))) {
+      if (/Bonuses/.test(t) || (a && /bonuses\.html/.test(a.getAttribute('href') || ''))) {
         var n = h.nextElementSibling; while (n && !n.classList.contains('sec-h') && !n.classList.contains('firewall') && !n.classList.contains('signup')) { var x = n.nextElementSibling; n.remove(); n = x; }
         h.remove();
       }
     });
     q('nav.sections a[href^="bonuses.html"], .foot a[href^="bonuses.html"], .foot a[href="disclosure.html"]').forEach(function (a) { var d = a.closest('.dd') || a; d.remove(); });
-    q('a[href$="#tip"], a[href$="#acca"], a[href$="#combo"]').forEach(function (a) { a.remove(); });
     q('a[href="disclosure.html"]').forEach(function (a) { a.parentNode.replaceChild(document.createTextNode(a.textContent), a); });
-    var fp = 0; q('.foot p').forEach(function (p) { if (/commission or fees|Tips come from|real chances behind/.test(p.textContent)) { if (fp++) p.remove(); else p.textContent = 'News, previews and guides on sport and betting, with the real chances behind the prices. We are not a bookmaker and take no bets.'; } });
-    q('.foot a[href$="#accas-combos"], .chips a[href$="#accas-combos"]').forEach(function (a) { a.remove(); });
+    var fp = 0; q('.foot p').forEach(function (p) { if (/commission or fees|real chances behind/.test(p.textContent)) { if (fp++) p.remove(); else p.textContent = 'News, previews and guides on sport and betting, with the real chances behind the prices. We are not a bookmaker, take no bets and have no affiliate deals.'; } });
+    q('p.meta').forEach(function (p) { if (/may contain affiliate links/.test(p.textContent)) p.innerHTML = '18+. No affiliate links. Tips are copied from <a href="https://betmeisters.com/?utm_source=news&amp;utm_medium=referral&amp;utm_campaign=article" style="display:inline">BetMeisters.com</a> exactly as published.'; });
     q('.edition span').forEach(function (x) { if (/Kampala/.test(x.textContent)) x.remove(); });
     if (document.body.getAttribute('data-page') === 'home') home();
     var nt = document.querySelector('.notice'); if (nt) nt.innerHTML = '18+ only · Please gamble responsibly · <a href="https://www.begambleaware.org" rel="noopener">BeGambleAware.org</a>';
@@ -94,7 +90,9 @@
       var front = document.querySelector('.front');
       if (front && (f.next || []).length && !document.querySelector('.bmf-top')) { var tr = document.createElement('section'); tr.className = 'bmf-top';
         tr.innerHTML = '<div class="sec-h"><h2>Next tips · free until 1 January</h2><a href="' + U + '">All of today\'s tips →</a></div><ul class="bmf">' + f.next.slice(0, 3).map(function (t) {
-          return '<li><a href="' + U + '"><span class="bmf-t">' + e(when(t.start)) + ' · ' + e(t.tier) + ' · ' + e(t.who) + '</span><b>' + e(t.sel) + ' @ ' + (+t.price).toFixed(2) + '</b><span class="bmf-e">' + e(t.event) + (t.chance ? ' · chance ' + Math.round(t.chance * 100) + '%' : '') + '</span></a></li>'; }).join('') + '</ul>';
+          return '<li><a href="' + U + '"><span class="bmf-t">' + e(when(t.start)) + ' · ' + e(t.tier) + ' · ' + e(t.who) + '</span><b>' + e(t.sel) + ' @ ' + (+t.price).toFixed(2) + '</b><span class="bmf-e">' + e(t.event) + (t.chance ? ' · chance ' + Math.round(t.chance * 100) + '%' : '') + '</span></a></li>'; }).join('') + '</ul>' +
+          ((f.meisters || []).length ? '<div class="bmf-mrow">' + f.meisters.map(function (m) { return '<a href="' + U + '"><span>' + e(m.name) + '</span><b class="' + (m.pts >= 0 ? 'pos' : 'neg') + '">' + sg(m.pts) + ' pts</b><i>' + m.n + ' settled</i></a>'; }).join('') +
+            '<a class="tot" href="' + U + '"><span>All Meisters since 5 Nov</span><b>' + sg(rec.pts) + ' pts</b><i>' + rec.tips + ' settled · ' + (rec.roi >= 0 ? '+' : '−') + Math.abs(rec.roi).toFixed(1) + '% return</i></a></div>' : '');
         front.parentNode.insertBefore(tr, front.nextSibling); }
       if (!box) return;
       var M = f.meisters || [];

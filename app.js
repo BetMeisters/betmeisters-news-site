@@ -2,7 +2,7 @@
   var D = window.BMN, page = document.body.getAttribute("data-page") || "home";
   var $ = function (s) { return document.querySelector(s); };
   var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
-  var BM_URL = "https://claude.ai/artifact/4QVWLzE8WXNnR4J2dm4wEa";
+  var BM_URL = "https://betmeisters.com/?utm_source=news&utm_medium=referral&utm_campaign=tipbox";
   var tz = function (iso, zone, opt) { return new Intl.DateTimeFormat("en-GB", Object.assign({ timeZone: zone }, opt)).format(new Date(iso)); };
   var when = function (iso) { return tz(iso, "Africa/Kampala", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", hour12: false }) + " EAT · " + tz(iso, "Europe/London", { hour: "2-digit", minute: "2-digit", hour12: false }) + " UK"; };
   var dateOnly = function (iso) { return tz(iso, "Africa/Kampala", { day: "numeric", month: "long", year: "numeric" }); };
@@ -150,7 +150,7 @@
     var OPS = OPN;
     var revCard = function (o) { return '<div class="card"><div class="kick">' + esc(revCatOf(o)[1]) + (o.draft ? " · in progress" : o.desk ? " · desk review" : "") + '</div><h3><a href="review.html#' + o.id + '">' + esc(o.name) + ' review</a></h3><p>' + esc((o.verdict || "").split(". ")[0]) + '.</p><div class="meta">' + (o.score != null ? o.score.toFixed(1) + " out of 10" : o.provisional != null ? (o.desk ? "Desk review " + o.provisional.toFixed(1) + " out of 10" : "Provisional " + o.provisional.toFixed(1) + " · not ranked yet") : "Score to come") + " · " + opTags(o).map(function (t) { return esc(t); }).join(", ") + "</div></div>"; };
     /* Keith 17 Nov 09:02: the lead box looked empty: an excerpt from the piece, then 'Also on the desk' headlines fill it */
-    var leadEx = (function () { var t = (lead.body || []).join(" ").replace(/<h[23][^>]*>.*?<\/h[23]>/g, " ").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(); var w = t.split(" "); return w.length > 70 ? w.slice(0, 70).join(" ") + "…" : t; })();
+    var leadEx = (function () { var t = (lead.body || []).join(" ").replace(/<h[23][^>]*>.*?<\/h[23]>/g, " ").replace(/<\/(p|li|ul|ol|tr|td|div)>/g, " ").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim(); var w = t.split(" "); return w.length > 70 ? w.slice(0, 70).join(" ") + "…" : t; })();
     var ALSO = A.filter(function (a) { return notShown(a) && !(a.section === "previews" && (a.tip || a.multi)); }).slice(0, 3); ALSO.forEach(take);
     var alsoH = ALSO.length ? '<div class="also"><div class="kick" style="color:var(--ink-3)">Also on the desk</div>' + ALSO.map(function (a) { return '<a href="article.html#' + a.id + '"><span class="kick">' + esc(a.kicker.split(" · ")[0]) + "</span><b>" + esc(a.title) + "</b></a>"; }).join("") + "</div>" : "";
     XT = A.filter(function (a) { return notShown(a) && (a.section === "news" || (a.section === "previews" && !a.tip && !a.multi)); }).slice(0, 4); XT.forEach(take);
