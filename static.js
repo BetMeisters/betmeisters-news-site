@@ -4,7 +4,7 @@
   function fix() {
     var q = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
     q('a[href*="claude.ai/artifact"], a[href*="betmeisters.com"]').forEach(function (a) {
-      if (a.closest('.bx, .pp-tease, .bm-link, .tipwall, .tw-item, #signup')) return;
+      if (a.closest('.bx, .pp-tease, .bm-link, .tipwall, .tw-item, #signup, .bmf-strip, .bmf-top')) return;
       var t = document.createTextNode(a.textContent); a.parentNode.replaceChild(t, a);
     });
     q('.bx, .pp-tease, .bm-link, .record, .firewall, .tipwall, .tw-item').forEach(function (e) { e.remove(); });
@@ -82,13 +82,21 @@
   }
   /* Owner 23 Nov 11:16: live tips from BetMeisters.com (tips_feed.json, updated every pass) */
   (function feed() {
-    if (window.__bmFeed) return; window.__bmFeed = 1; var sg0 = document.getElementById('signup'); if (!sg0) return; var box = document.getElementById('bm-feed'); if (!box) { box = document.createElement('div'); box.id = 'bm-feed'; sg0.appendChild(box); } box.innerHTML = '';
+    if (window.__bmFeed) return; window.__bmFeed = 1; var sg0 = document.getElementById('signup'); var box = sg0 ? document.getElementById('bm-feed') : null; if (sg0 && !box) { box = document.createElement('div'); box.id = 'bm-feed'; sg0.appendChild(box); } if (box) box.innerHTML = '';
+    var nav = document.querySelector('nav.sections'), strip = null; if (nav && !document.querySelector('.bmf-strip')) { strip = document.createElement('a'); strip.className = 'bmf-strip'; strip.href = 'https://betmeisters.com/?utm_source=news&utm_medium=referral&utm_campaign=top_strip'; strip.innerHTML = '<b>Every BetMeisters tip free until 1 January</b><span class="bmf-s2"></span><span class="bmf-go">See today\'s tips →</span>'; nav.parentNode.insertBefore(strip, nav.nextSibling); }
     var U = 'https://betmeisters.com/?utm_source=news&utm_medium=referral&utm_campaign=tipbox';
     var e = function (x) { return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
     var hm = { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' };
     var when = function (iso) { var d = new Date(iso), uk = new Intl.DateTimeFormat('en-GB', Object.assign({ timeZone: 'Europe/London', weekday: 'short' }, hm)).format(d), lt = ''; try { var l = new Intl.DateTimeFormat('en-GB', hm).format(d), u = new Intl.DateTimeFormat('en-GB', Object.assign({ timeZone: 'Europe/London' }, hm)).format(d); if (l !== u) lt = ' · ' + l + ' your time'; } catch (x) {} return uk + ' UK' + lt; };
     fetch('https://betmeisters.com/tips_feed.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (f) {
       var rec = f.record || {}, sg = function (v) { return (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(2); };
+      if (strip && rec.pts != null) strip.querySelector('.bmf-s2').textContent = 'All Meisters ' + sg(rec.pts) + ' pts since 5 Nov, every loser counted';
+      var front = document.querySelector('.front');
+      if (front && (f.next || []).length && !document.querySelector('.bmf-top')) { var tr = document.createElement('section'); tr.className = 'bmf-top';
+        tr.innerHTML = '<div class="sec-h"><h2>Next tips · free until 1 January</h2><a href="' + U + '">All of today\'s tips →</a></div><ul class="bmf">' + f.next.slice(0, 3).map(function (t) {
+          return '<li><a href="' + U + '"><span class="bmf-t">' + e(when(t.start)) + ' · ' + e(t.tier) + ' · ' + e(t.who) + '</span><b>' + e(t.sel) + ' @ ' + (+t.price).toFixed(2) + '</b><span class="bmf-e">' + e(t.event) + (t.chance ? ' · chance ' + Math.round(t.chance * 100) + '%' : '') + '</span></a></li>'; }).join('') + '</ul>';
+        front.parentNode.insertBefore(tr, front.nextSibling); }
+      if (!box) return;
       var M = f.meisters || [];
       box.innerHTML = (M.length ? '<div class="bmf-ms">' + M.map(function (m) { return '<a href="' + U + '"><span class="bmf-mn">' + e(m.name) + '</span><b class="' + (m.pts >= 0 ? 'pos' : 'neg') + '">' + sg(m.pts) + ' pts</b><span class="bmf-ms-s">' + m.n + ' settled · ' + m.won + ' won</span></a>'; }).join('') + '</div>' : '') +
         '<p class="bmf-rec"><b>All Meisters since 5 November:</b> ' + sg(rec.pts) + ' pts from ' + rec.tips + ' settled tips (' + (rec.roi >= 0 ? '+' : '−') + Math.abs(rec.roi).toFixed(1) + '% return), every loser counted. <b>Every tip is free to read until 1 January.</b></p>' +
