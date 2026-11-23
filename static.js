@@ -3,7 +3,7 @@
   function fix() {
     var q = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
     q('a[href*="claude.ai/artifact"], a[href*="betmeisters.com"]').forEach(function (a) {
-      if (a.closest('.bx, .pp-tease, .bm-link, .tipwall, .tw-item')) return;
+      if (a.closest('.bx, .pp-tease, .bm-link, .tipwall, .tw-item, #signup')) return;
       var t = document.createTextNode(a.textContent); a.parentNode.replaceChild(t, a);
     });
     q('.bx, .pp-tease, .bm-link, .record, .firewall, .tipwall, .tw-item').forEach(function (e) { e.remove(); });
@@ -80,7 +80,7 @@
   }
   /* Owner 23 Nov 11:16: live tips from BetMeisters.com (tips_feed.json, updated every pass) */
   (function feed() {
-    var box = document.getElementById('bm-feed'); if (!box || box.getAttribute('data-done')) return; box.setAttribute('data-done', '1');
+    if (window.__bmFeed) return; window.__bmFeed = 1; var sg0 = document.getElementById('signup'); if (!sg0) return; var box = document.getElementById('bm-feed'); if (!box) { box = document.createElement('div'); box.id = 'bm-feed'; sg0.appendChild(box); } box.innerHTML = '';
     var U = 'https://betmeisters.com/?utm_source=news&utm_medium=referral&utm_campaign=tipbox';
     var e = function (x) { return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
     var hm = { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' };
